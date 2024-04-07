@@ -6,6 +6,16 @@
 - Matches do not get scheduled unless teams do not conflict and each team has atleast 11 players
 - Player statistics is static
 
+## Execution Flow
+1. Signup
+2. Login
+3. Create player
+4. Create Team
+5. Add Player to Team Squad
+6. Create Match
+7. Get Matchs (Paginated)
+8. Get Match Details
+
 ## Getting Started
 
 1. Clone the repository:

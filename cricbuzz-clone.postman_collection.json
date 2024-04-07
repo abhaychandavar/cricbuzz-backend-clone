@@ -332,7 +332,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/matches?team=India",
+									"raw": "{{baseUrl}}/matches?page=1&perPage=50&team=India&team1=India&team2=Australia",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -341,8 +341,24 @@
 									],
 									"query": [
 										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "perPage",
+											"value": "50"
+										},
+										{
 											"key": "team",
 											"value": "India"
+										},
+										{
+											"key": "team1",
+											"value": "India"
+										},
+										{
+											"key": "team2",
+											"value": "Australia"
 										}
 									]
 								}

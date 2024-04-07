@@ -10,7 +10,6 @@ const microOrmConfig = defineConfig ({
     ],
     migrations: {
         path: path.join(__dirname, './migrations'),
-        pathTs: path.join(__dirname, './migrations'),
         glob: '!(*.d).{js,ts}'
     },
     entities: entities,
