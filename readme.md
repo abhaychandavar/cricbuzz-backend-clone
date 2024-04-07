@@ -21,11 +21,12 @@
 5. Run `npm run watch`
 6. Open a new terminal
 7. Run `npm run dev` in the new terminal
-8. Import `cricbuzz-clone.postman_collection.json` file into your Postman
-9. Setup an environment in postman with these variables:
+8. ## If you face any issue regarding migration while running, then stop `npm watch`, stop `npm run dev`, delete, `dist` folder, then tun `npm run watch` and `npm run dev` again, it should work fine (This is due to duplicate mikroOrm migration conflict with files generated in both dist and src, can be solved by editing microOrm config) ##
+9. Import `cricbuzz-clone.postman_collection.json` file into your Postman
+10. Setup an environment in postman with these variables:
    1. `baseUrl` - Initial value: `localhost:<PORT_VALUE_FROM_ENV>`, Current value: `<PORT_VALUE_FROM_ENV>`
    2. `access_token`
-10. Voila! you are ready to go!
+11. Voila! you are ready to go!
 
 
 ## Scripts

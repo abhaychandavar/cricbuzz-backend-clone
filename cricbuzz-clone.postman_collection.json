@@ -268,6 +268,46 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "update match",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\": \"COMPLETED\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/matches/:matchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"matches",
+										":matchId"
+									],
+									"variable": [
+										{
+											"key": "matchId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -322,13 +362,38 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/matches/:matchId",
+									"raw": "{{baseUrl}}/matches/:matchId?page=1&perPage=50&team=India&team1=India&team2=Australia",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"matches",
 										":matchId"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "perPage",
+											"value": "50"
+										},
+										{
+											"key": "team",
+											"value": "India",
+											"description": "To search based on either of the team"
+										},
+										{
+											"key": "team1",
+											"value": "India",
+											"description": "To search based on team 1"
+										},
+										{
+											"key": "team2",
+											"value": "Australia",
+											"description": "To search based on team 2"
+										}
 									],
 									"variable": [
 										{
