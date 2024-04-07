@@ -1,5 +1,7 @@
 # Cricbuzz
 
+## Node v18.19.1
+
 ## Assumptions
 - Unique player name: As per the description Add team members to squad requires us to pass player name instead of player ID in request body
 - Player and Teams are decoupled: Assuming same player can be added to different teams hence player is not tied up to a team (Example: A player can be part of international cricket team aswell as IPL team)
