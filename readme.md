@@ -5,7 +5,7 @@
 ## Scripts
 - `watch`: Watches for changes in TypeScript files and compiles them automatically using `tsc -w`.
 - `test`: Placeholder script for running tests.
-- `start`: Starts the application in development mode using `ts-node`.
+- `start`: Starts the application in production mode.
 - `dev`: Starts the application in development mode using `nodemon`.
 
 ## Getting Started
