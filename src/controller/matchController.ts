@@ -15,7 +15,7 @@ const createMatchType = z.object({
 class MatchController {
     createMatch = async (req: Request, res: Response) => {
         try {
-            const { preParsedDate } = req.body;
+            const { date: preParsedDate } = req.body;
             const preParsedBody = {
                 ...req.body,
                 date: moment(preParsedDate).toDate(),
@@ -44,8 +44,7 @@ class MatchController {
     getMatches = async (req: Request, res: Response) => {
         try {
             const { page, perPage, date, team, team1, team2 } = req.query;
-            console.log('q >>', req.query)
-            const user = await matchService.getMatches({ 
+            const matches = await matchService.getMatches({ 
                 page: typeof page === 'string' ? Number(page) : 1,
                 perPage: typeof perPage === 'string' ? Number(perPage): 50,
                 date: typeof date === 'string' ? moment(date).utc().toDate() : undefined,
@@ -54,7 +53,7 @@ class MatchController {
                 team2Name: typeof team2 === 'string' ? team2 as string : undefined
             });
             return responseHandler.sendSuccessResponse({
-                data: user,
+                data: matches,
                 message: 'Match schedules fetched successfully',
             }, res)
         }
@@ -72,6 +71,24 @@ class MatchController {
             return responseHandler.sendSuccessResponse({
                 data: user,
                 message: 'Match details successfully fetched',
+            }, res)
+        }
+        catch (error) {
+            console.log(error);
+            if (error instanceof ZodError) return responseHandler.sendErrorResponse(new AppError(errors.ERR_INVALID_REQUEST_DATA), res, error.errors);
+            return responseHandler.sendErrorResponse(error, res);
+        }
+    }
+
+    updateMatch = async (req: Request, res: Response) => {
+        try {
+            const { matchId } = req.params;
+            const { status, date } = req.body;
+            if (date && !moment(date).isValid()) throw new AppError({ ...errors.ERR_INVALID_REQUEST_DATA, message: 'Please provide valid date' });
+            const user = await matchService.updateMatch({ matchId: Number(matchId), status, date: date ? moment(date).toDate() : undefined });
+            return responseHandler.sendSuccessResponse({
+                data: user,
+                message: 'Match status updated',
             }, res)
         }
         catch (error) {

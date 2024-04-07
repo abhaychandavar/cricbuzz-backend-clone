@@ -1,4 +1,4 @@
-import { Entity, OneToMany, PrimaryKey, Property, Unique } from "@mikro-orm/core";
+import { Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Squad } from "./squads";
 
 @Entity()

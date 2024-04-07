@@ -1,4 +1,4 @@
-import { Match } from "../db/models/matches";
+import { Match, MatchStatus } from "../db/models/matches";
 import { db } from "../";
 import moment from "moment";
 import teamsService from "./teamsService";
@@ -91,7 +91,9 @@ class MatchService {
             populate: ['team_1', 'team_2']
         });
         return {
-            matches: matches[0].map((team) => ({ ...team, team_1: team.team_1.name, team_2: team.team_2.name })),
+            matches: matches[0].map((match) => ({ ...team, 
+                team_1: match.team_1.name, 
+                team_2: match.team_2.name })),
             total: matches[1],
             per_page: perPage,
             page
@@ -163,6 +165,24 @@ class MatchService {
                 }))
             }
         };
+    }
+
+    updateMatch = async ({ status, date, matchId }: {
+        status?: MatchStatus,
+        date?: Date,
+        matchId: number
+    }) => {
+        const match = await db.findOne(Match, {
+            id: matchId
+        });
+        if (!match) throw new AppError({ ...errors.ERR_INVALID_REQUEST_DATA, message: 'Match does not exist' });
+        if (status) {
+            match.status = status;
+        }
+        if (date) {
+            match.date = moment(date).utc().toDate();
+        }
+        await db.persistAndFlush(match);
     }
 }
 
