@@ -91,7 +91,8 @@ class MatchService {
             populate: ['team_1', 'team_2']
         });
         return {
-            matches: matches[0].map((match) => ({ ...team, 
+            matches: matches[0].map((match) => ({ 
+                ...match, 
                 team_1: match.team_1.name, 
                 team_2: match.team_2.name })),
             total: matches[1],
