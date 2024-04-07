@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "ce865e62-f7ae-445d-a8f1-1a42763f9755",
+		"name": "cricbuzz-clone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11232278"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "Signup admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"abhay\",\n    \"email\": \"abhaychandavar@gmail.com\",\n    \"password\": \"123@Abhay\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/admin/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Signin Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"access_token\", pm.response.json().access_token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"abhay\",\n    \"password\": \"123@Abhay\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/admin/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "players",
+					"item": [
+						{
+							"name": "Create player",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Virat Kholi\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/players",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"players"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "teams",
+					"item": [
+						{
+							"name": "Create team",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"India\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/teams",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"teams"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add player to team",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Virat Kholi\",\n    \"role\": \"BATSMAN\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/teams/:teamId/squad",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"teams",
+										":teamId",
+										"squad"
+									],
+									"variable": [
+										{
+											"key": "teamId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "matches",
+					"item": [
+						{
+							"name": "Create match",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"team_1\": \"India\",\n    \"team_2\": \"Australia\",\n    \"date\": \"2023-07-12\",\n    \"venue\": \"Sydney Cricket Ground\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/matches",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"matches"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "matches",
+					"item": [
+						{
+							"name": "Get matches",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/matches?team=India",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"matches"
+									],
+									"query": [
+										{
+											"key": "team",
+											"value": "India"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get match details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/matches/:matchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"matches",
+										":matchId"
+									],
+									"variable": [
+										{
+											"key": "matchId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "players",
+					"item": [
+						{
+							"name": "Get player statistics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/players/:playerId/stats",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"players",
+										":playerId",
+										"stats"
+									],
+									"variable": [
+										{
+											"key": "playerId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import microOrmConfig from './mikro-orm.config';
 import { EntityManager, MikroORM } from '@mikro-orm/postgresql';
 import express from 'express';
@@ -13,7 +14,7 @@ const initDb = async () => {
 
 const start = async () => {
     await initDb();
-
+    dotenv.config();
     const app = express();
 
     app.use(express.json());

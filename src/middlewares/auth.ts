@@ -3,7 +3,6 @@ import userService from '../services/user';
 import AppError from '../utils/appError';
 import jwtHandler from '../utils/jwt';
 import responseHandler from '../utils/responseHandler';
-import zod from 'zod';
 import errors from '../utils/errors';
 
 export interface AppReq extends Request {
@@ -13,15 +12,10 @@ export interface AppReq extends Request {
     }
 }
 
-const AdminReqType = zod.object({
-    headers: zod.object({
-        authorization: zod.string(),
-    })
-})
 class Auth {
     validateAdminUser = async (req: AppReq, res: Response, next: NextFunction) => {
         try {
-            AdminReqType.parse(req);
+            if (!req.headers.authorization) throw new AppError({ ...errors.ERR_UNAUTHORIZED, message: 'Invalid access token' });
             const bearerToken = req.headers.authorization;
             const tokenSplits = bearerToken!.split('Bearer ');
     
@@ -35,12 +29,7 @@ class Auth {
         }
         catch (error) {
             console.log('ERROR', error);
-            if (error instanceof AppError) return responseHandler.sendErrorResponse({ error, res });
-            const appError = new AppError(errors.ERR_INTERNAL_SERVER_ERROR);
-            return responseHandler.sendErrorResponse({
-                error: appError,
-                res
-            });
+            return responseHandler.sendErrorResponse(error, res);
         }
     }
 }

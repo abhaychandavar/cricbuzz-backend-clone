@@ -1,8 +1,8 @@
 import path from "path";
-import { User } from "./db/models/users";
 import appConfig from "./config/app";
 import { defineConfig } from "@mikro-orm/postgresql";
 import { Migrator } from '@mikro-orm/migrations';
+import entities from "./db/models";
 
 const microOrmConfig = defineConfig ({
     extensions: [
@@ -13,7 +13,7 @@ const microOrmConfig = defineConfig ({
         pathTs: path.join(__dirname, './migrations'),
         glob: '!(*.d).{js,ts}'
     },
-    entities: [User],
+    entities: entities,
     dbName: appConfig.db.database,
     debug: appConfig.env !== 'PROD',
     port: appConfig.db.port,

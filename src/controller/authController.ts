@@ -1,14 +1,22 @@
 import { Request, Response } from "express";
 import authService from "../services/auth";
 import responseHandler from "../utils/responseHandler";
-import { z } from "zod";
+import { ZodError, z } from "zod";
+import helpers from "../utils/helpers";
+import AppError from "../utils/appError";
+import errors from '../utils/errors';
 
 const signupAdminBodyType = z.object({
-    username: z.string(),
-    firstName: z.optional(z.string()),
-    lastName: z.optional(z.string()),
-    email: z.string(),
-    password: z.string()
+    username: z.string().refine(helpers.validateUsername, {
+        message: 'Invalid username'
+    }),
+    name: z.optional(z.string()),
+    email: z.string().refine(helpers.validateEmail, {
+        message: 'Invalid email address'
+    }),
+    password: z.string().refine(helpers.validatePassword, {
+        message: `Password isn't strong enough`
+    })
 });
 
 const loginAdminBodyType = z.object({
@@ -21,8 +29,8 @@ class AuthController {
     signupAdmin = async (req: Request, res: Response) => {
         try {
             signupAdminBodyType.parse(req.body);
-            const { username, firstName, lastName, email, password } = req.body;
-            const user = await authService.signupAdmin({ username, firstName, lastName, email, password });
+            const { username, name, email, password } = req.body;
+            const user = await authService.signupAdmin({ username, name, email, password });
             return responseHandler.sendSuccessResponse({
                 data: user,
                 message: 'Admin Account successfully created',
@@ -30,6 +38,9 @@ class AuthController {
         }
         catch (error) {
             console.log(error);
+            if (error instanceof ZodError) {
+                return responseHandler.sendErrorResponse(new AppError(errors.ERR_INVALID_REQUEST_DATA), res, error.errors);
+            }
             return responseHandler.sendErrorResponse(error, res);
         }
     }

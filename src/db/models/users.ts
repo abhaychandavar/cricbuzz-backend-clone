@@ -8,10 +8,7 @@ export class User {
   id!: number;
 
   @Property({ length: 50, type: 'text', nullable: true, default: null })
-  first_name?: string;
-
-  @Property({ length: 50, type: 'text', nullable: true, default: null })
-  last_name?: string;
+  name?: string;
 
   @Property({ length: 50, type: 'text', unique: true })
   username!: string;
@@ -19,7 +16,7 @@ export class User {
   @Property({ length: 200, type: 'text' })
   password!: string;
 
-  @Property({ length: 100, type: 'text' })
+  @Property({ length: 100, type: 'text', unique: true })
   email!: string;
 
   @Enum(() => UserRole)

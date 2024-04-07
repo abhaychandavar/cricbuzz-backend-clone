@@ -10,27 +10,23 @@ class AuthService {
         username,
         password,
         email,
-        firstName,
-        lastName
+        name
     }: {
         username: string,
         password: string,
         email: string,
-        firstName?: string,
-        lastName?: string
+        name?: string
     }): Promise<{
         user_id: number
     }> => {
         const query = db.create(User, {
-            username,
+            username: username.trim().toLocaleLowerCase(),
             password,
-            email,
+            email: email.trim().toLocaleLowerCase(),
             role: UserRole.ADMIN,
-            first_name: firstName,
-            last_name: lastName
+            name: name ? name.trim() : name
         });
-        const res = await db.persistAndFlush(query);
-        console.log('RES', res);
+        await db.persistAndFlush(query);
         return {
             user_id: query.id
         };
@@ -51,8 +47,8 @@ class AuthService {
             email?: string,
         } = {};
         
-        if (username) where.username = username;
-        if (email) where.email = email;
+        if (username) where.username = username.trim().toLowerCase();
+        if (email) where.email = email.trim().toLowerCase();
 
         const user = await db.findOne(User, where);
         if (!user) throw new AppError({ ...errors.ERR_INTERNAL_SERVER_ERROR, message: 'User not found' });

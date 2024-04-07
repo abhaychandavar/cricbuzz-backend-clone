@@ -1,25 +1,21 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, OneToMany, PrimaryKey, Property, Unique } from "@mikro-orm/core";
+import { Squad } from "./squads";
 
 @Entity()
 export class Player {
 
-  @PrimaryKey()
+  @PrimaryKey({ autoincrement: true })
   id!: number;
 
-  @Property({ length: 50, type: 'text' })
-  first_name!: string;
-
-  @Property({ length: 50, type: 'text' })
-  last_name: string;
+  @Property({ length: 50, type: 'text', unique: true })
+  name!: string;
 
   @Property()
-  created_at = new Date();
+  created_at?= new Date();
+
+  @OneToMany(() => Squad, Squad => Squad.player)
+  squads?: Squad;
 
   @Property({ onUpdate: () => new Date() })
-  updated_at = new Date();
+  updated_at?= new Date();
 }
-
-export enum UserRole {
-    ADMIN = 'admin',
-    GUEST = 'guest',
-  }

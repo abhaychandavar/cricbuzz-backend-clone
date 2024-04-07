@@ -1,31 +1,33 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, ManyToOne, PrimaryKey, Property, Unique } from "@mikro-orm/core";
 import { Player } from "./players";
 import { Team } from "./teams";
 
 @Entity()
+@Unique({ properties: ['player', 'role', 'team'] })
+@Unique({ properties: ['player', 'team'] })
 export class Squad {
   @PrimaryKey({ autoincrement: true })
   id!: number;
 
   @ManyToOne(() => Team)
-  team_id!: Team;
+  team!: Team;
 
   @ManyToOne(() => Player)
-  player_id!: Player;
+  player!: Player;
 
   @Property({ type: 'enumArray' })
-  role!: SquadRole;
+  role!: SquadRole[];
 
   @Property()
-  created_at = new Date();
+  created_at?= new Date();
 
   @Property({ onUpdate: () => new Date() })
-  updated_at = new Date();
+  updated_at?= new Date();
 }
 
 export enum SquadRole {
   WICKET_KEEPER = 'wicket_keeper',
-  BATTER = 'batter',
+  BATSMAN = 'batsman',
   BOWLER = 'bowler',
   CAPTIAN = 'captian',
   VICE_CAPTIAN = 'vice_captain',
